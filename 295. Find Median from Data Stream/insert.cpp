@@ -4,23 +4,24 @@
 using namespace std;
 
 class MedianFinder {
-    vector<int> store; // resize-able container
+    vector<int> a; // resize-able container
 
 public:
     // Adds a number into the data structure.
     void addNum(int num)
     {
-        if (store.empty())
-            store.push_back(num);
+        if (a.empty())
+            a.push_back(num);
         else
-            store.insert(lower_bound(store.begin(), store.end(), num), num);     // binary search and insertion combined
+            a.insert(lower_bound(a.begin(), a.end(), num), num);     // binary search and insertion combined
     }
 
     // Returns the median of current data stream
     double findMedian()
     {
-        int n = store.size();
-        return n & 1 ? store[n / 2] : ((double)store[n / 2 - 1] + store[n / 2]) * 0.5;
+        int size = a.size();
+        if (size % 2)return a[size / 2];
+        else return (double)(a[size / 2] + a[size / 2 - 1]) / (double)2;
     }
 };
 
