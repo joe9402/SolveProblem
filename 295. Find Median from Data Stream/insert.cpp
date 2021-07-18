@@ -1,40 +1,44 @@
 #include <iostream>
 #include <vector>
+#include <stdio.h>
 
-using namespace std;
+int map[100][100];
+int N, M, K;
+int count;
 
-class MedianFinder {
-    vector<int> a; // resize-able container
+void DFS(int x, int y) {
+	map[x][y] = count;
+	if (x > 0 && map[x - 1][y] == 0)DFS(x - 1, y);
+	if (x < N - 1 && map[x + 1][y] == 0)DFS(x + 1, y);
+	if (y > 0 && map[x][y - 1] == 0)DFS(x, y - 1);
+	if (y < M - 1 && map[x][y + 1] == 0)DFS(x, y + 1);
+}
 
-public:
-    // Adds a number into the data structure.
-    void addNum(int num)
-    {
-        if (a.empty())
-            a.push_back(num);
-        else
-            a.insert(lower_bound(a.begin(), a.end(), num), num);     // binary search and insertion combined
-    }
-
-    // Returns the median of current data stream
-    double findMedian()
-    {
-        int size = a.size();
-        if (size % 2)return a[size / 2];
-        else return (double)(a[size / 2] + a[size / 2 - 1]) / (double)2;
-    }
-};
-
-int main() {
-    MedianFinder a = MedianFinder();
-    a.addNum(1);
-    a.addNum(2);
-    printf("%f\n",a.findMedian());
-    a.addNum(3);
-    printf("%f\n", a.findMedian());
-    a.addNum(4);
-    printf("%f\n", a.findMedian());
-
-
-    
+int main(void) {
+	scanf("%d%d%d", &N, &M, &K);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			map[i][j] = 0;
+		}
+	}
+	int x1, y1, x2, y2;
+	for (int i = 0; i < K; i++) {
+		scanf("%d%d%d%d", &x1, &y1, &x2, &y2);
+		for (int j = x1; j < x2; j++) {
+			for (int k = y1; k < y2; k++) {
+				map[j][k] = -1;
+			}
+		}
+	}
+	count = 0;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			if (map[i][j] == 0) {
+				count++;
+				DFS(i, j);
+			}
+		}
+	}
+	printf("%d", count);
+	return 0;
 }
