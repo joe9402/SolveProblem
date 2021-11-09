@@ -55,7 +55,7 @@ void verify() {
 	int dx, dy, c;
 	for (int y = 0; y < 5000; y++) {
 		for (int x = 0; x < 5000; x++) {
-			if (new_map[y][x] > 0){
+			if (new_map[y][x] > 0) {
 				c = new_map[y][x] - 1;
 				cnt[c]++;
 				dx = x - NB[c][0];
@@ -74,6 +74,7 @@ void verify() {
 	if (sum != 250000) {
 		LOSS += (long double)50000000;
 	}
+	printf("%ld %d %d %d %d", sum, cnt[0], cnt[1], cnt[2], cnt[3]);
 }
 int main() {
 	srand(seed);
@@ -81,10 +82,11 @@ int main() {
 		init();
 
 		build();
-		
+
 		test(new_map);
-		
+
 		verify();
+		printf("LOSS : %.1lf\n", LOSS);
 	}
 	printf("LOSS : %.1lf\n", LOSS);
 }
