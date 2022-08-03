@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main() {
+/*int main() {
     int N;
     vector<int> v;
     cin >> N;
@@ -61,5 +61,45 @@ int main() {
         //cout << i << " "  << k << " "  << v[i] << " " << j << " " << min << " " << res << endl;
         i++;
     }
+    cout << res;
+}*/
+
+int main() {
+    int N;
+    vector<int> v;
+    cin >> N;
+    for (int i = 0; i < N; i++) {
+        int j;
+        cin >> j;
+        v.push_back(j);
+    }
+    sort(v.begin(), v.end());
+
+    if (N == 2 || v[0] > 0) {
+        cout << v[0] << " " << v[1];
+        return 0;
+    }
+    if (v[v.size() - 1] < 0) {
+        cout << v[v.size() - 2] << " " << v[v.size() - 1];
+        return 0;
+    }
+
+    int min = 2000000000;
+    int l = 0, r = N-1;
+    string res = "";
+    while (l < r) {
+        if (l >= N || r < 0) break;
+        int now = v[l] + v[r];
+        if (min > abs(now)) {
+            min = abs(now);
+            res = to_string(v[l]) + " " + to_string(v[r]);
+        }
+        if (now < 0) {
+            l++;
+        }
+        else
+            r--;
+    }
+
     cout << res;
 }
